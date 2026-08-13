@@ -138,8 +138,8 @@ export default function DashboardPage() {
                   <h2 className="mt-3 text-2xl font-bold">Find an opponent</h2>
 
                   <p className="mt-2 max-w-xl text-sm leading-6 text-zinc-400">
-                    We'll match you with a player close to your rating and skill
-                    level.
+                    We will match you with a player close to your rating and
+                    skill level.
                   </p>
                 </div>
 
