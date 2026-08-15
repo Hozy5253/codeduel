@@ -18,8 +18,13 @@ model User {
   username     String   @unique
   email        String   @unique
   passwordHash String
+
   rating       Int      @default(1000)
+  level        String   @default("Beginner")
+
   wins         Int      @default(0)
   losses       Int      @default(0)
+
   createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
