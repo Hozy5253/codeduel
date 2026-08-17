@@ -3,14 +3,15 @@ import Docker from 'dockerode';
 
 @Injectable()
 export class DockerService {
-  private docker: Docker;
-
-  constructor() {
-    this.docker = new Docker();
-  }
+  private docker = new Docker();
 
   async testDocker() {
-    const version = await this.docker.version();
-    return version;
+    try {
+      const version = await this.docker.version();
+      return version;
+    } catch (error) {
+      console.error('Docker Error:', error);
+      throw error;
+    }
   }
 }

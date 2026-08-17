@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { JudgeService } from './judge.service';
+import { ExecuteCodeDto } from './dto/execute-code.dto';
 
 @Controller('judge')
 export class JudgeController {
   constructor(private readonly judgeService: JudgeService) {}
 
-  @Get('docker')
-  async testDocker() {
-    return this.judgeService.testDocker();
+  @Post('run')
+  run(@Body() dto: ExecuteCodeDto) {
+    return this.judgeService.run(dto);
   }
 }

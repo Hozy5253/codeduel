@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { DockerService } from './docker.service';
+import { CppExecutor } from './executors/cpp.executor';
+import { ExecuteCodeDto } from './dto/execute-code.dto';
 
 @Injectable()
 export class JudgeService {
-  constructor(private readonly dockerService: DockerService) {}
+  constructor(private readonly cppExecutor: CppExecutor) {}
 
-  async testDocker() {
-    return this.dockerService.testDocker();
+  async run(dto: ExecuteCodeDto) {
+    if (dto.language === 'cpp') {
+      return this.cppExecutor.execute(dto.code, dto.input);
+    }
+
+    return {
+      error: 'Language not supported yet',
+    };
   }
 }

@@ -13,6 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Verdict {
+  Pending
+  Running
+  Accepted
+  WrongAnswer
+  CompilationError
+  RuntimeError
+  TimeLimitExceeded
+}
+
 model User {
   id           String   @id @default(cuid())
   username     String   @unique
@@ -61,19 +71,24 @@ model Problem {
   updatedAt     DateTime @updatedAt
 }
 model Submission {
-  id         String   @id @default(cuid())
+  id              String   @id @default(cuid())
 
-  code       String
-  language   String
-  verdict    String   @default("Pending")
+  code            String
+  language        String
 
-  createdAt  DateTime @default(now())
+  verdict         Verdict @default(Pending)
 
-  userId     String
-  problemId  String
+  executionTime   Int?
+  memoryUsed      Int?
 
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  problem     Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  userId          String
+  problemId       String
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem         Problem  @relation(fields: [problemId], references: [id], onDelete: Cascade)
 }
 model TestCase {
   id         String   @id @default(cuid())

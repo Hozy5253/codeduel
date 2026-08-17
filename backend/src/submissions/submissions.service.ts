@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateSubmissionDto } from './dto/create-submissions.dto';
+import { Verdict } from '@prisma/client';
 
 @Injectable()
 export class SubmissionsService {
@@ -44,8 +45,29 @@ export class SubmissionsService {
       },
       include: {
         user: true,
-        problem: true,
+        problem: {
+          include: {
+            testCases: true,
+          },
+        },
       },
     });
+  }
+  async updateVerdict(
+    submissionId: string,
+    verdict: Verdict,
+    executionTime?: number,
+  ) {
+    {
+      return this.prisma.submission.update({
+        where: {
+          id: submissionId,
+        },
+        data: {
+          verdict,
+          executionTime,
+        },
+      });
+    }
   }
 }
